@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem; margin-bottom: 20px;">
+    <div class="card-body">
+        {{#each thumbnail}}
+        <img src={{this}} height="150" class="card-img-top" style="object-fit:cover" alt="..." />
+        {{/each}}
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+        <p class="card-text">{{code}}</p>
+        <button data-productid="{{this._id}}" onclick="addToCart('{{this._id}}')" class="btn btn-primary">Añadir</button>
+        <a href="/product/{{_id}}" class="btn btn-info">Info</a>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="cart-container row" data-carritoid={{cart._id}}>
+    <div>carritos: {{cart.length}}</div>   
+    {{#each cart}}
+        <div class="card" style="width: 18rem; margin-bottom: 20px;">
+            {{this.email}}
+            <div class="card-body">
+                {{#if this.cart.products.length}}
+                    {{#each this.cart.products}}
+                        <img src="{{this.product.thumbnail.[0]}}" height="150" class="card-img-top" style="object-fit:cover" alt="..." />
+                        <h5 class="card-title">{{this.product.title}}</h5>
+                        <p class="card-text">{{this.product.description}}</p>
+                        <p class="card-text">{{this.product.code}}</p>
+                        <p class="card-text">Cantidad: {{this.quantity}}</p>
+                        <button data-productid="{{this.product._id}}" data-carritoid="{{../cart._id}}" class="btn btn-primary">Añadir</button>
+                        <button data-producto="{{this._id}}" data-carritoid="{{../cart._id}}" class="btn btn-danger delete-product">Eliminar</button>
+                    {{/each}}
+                {{else}}
+                    <p>No hay productos en este carrito.</p>
+                {{/if}}
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('button[data-productid]');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.getAttribute('data-productid');
+            const carritoID = button.getAttribute('data-carritoid');
+            addToCart(productId, carritoID);
+        });
+    });
+    async function addToCart(productId,carritoID) {
+        try {
+            const response = await fetch(`/api/carts/${carritoID}/product/${productId}`, { method: 'POST' });
+            const cart = await response.json();
+            console.log('Producto agregado al carrito:', cart);
+            alert('Producto agregado al carrito');
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+            alert('Error al agregar el producto al carrito');
+        }
+    }
+
+    const deleteButtons = document.querySelectorAll('.delete-product');
+
+    deleteButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+        const carritoID = button.dataset.carritoid;
+        const productoID = button.dataset.producto;
+
+        try {
+            const response = await fetch(`/api/carts/${carritoID}/products/${productoID}`, {
+                method: 'DELETE',
+            });
+
+            console.log('producto', productoID)
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto del carrito');
+            }
+
+            const data = await response.json();
+            console.log('Producto eliminado del carrito:', data);
+            alert('Producto eliminado del carrito');
+        } catch (error) {
+            console.error(error);
+            alert('Error al eliminar el producto del carrito');
+        }
+        window.location.reload();
+    });
+});
+</script>

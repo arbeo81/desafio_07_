@@ -1,0 +1,17 @@
+<h1 style="display: flex; justify-content: center;">Chat</h1>
+
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="display: flex; flex-direction: row; gap:2px;margin-bottom: 10px;">
+        <input type="text" id="chatBox" style="width: 250px; height: 30px; border-radius: 8px;" />
+        <button id="chatSumbit" type="submit" style="height: 30px; border: none; border-radius: 12px; background: #374d3b; color: white; cursor: pointer;">Enviar</button>
+    </div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div style="background:#f7fdfc ;display: flex; flex-direction: column; width: 300px; gap: 20px; padding: 20px; border-radius: 14px; ">
+        <p id="messageLogs"></p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

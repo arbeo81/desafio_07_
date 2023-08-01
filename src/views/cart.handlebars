@@ -1,0 +1,71 @@
+<div class="cart-container row" data-carritoid={{cart.cart._id}}>
+    {{#if cart.cart.products.length}}
+        {{#each cart.cart.products}}
+        <div class="card" style="width: 18rem; margin-bottom: 20px;">
+            <div class="card-body">
+                {{#each this.product.thumbnail}}
+                <img src="{{this}}" height="150" class="card-img-top" style="object-fit:cover" alt="..." />
+                {{/each}}
+                <h5 class="card-title">{{this.product.title}}</h5>
+                <p class="card-text">{{this.product.description}}</p>
+                <p class="card-text">{{this.product.code}}</p>
+                <p class="card-text">Cantidad: {{this.quantity}}</p>
+                <button data-productid="{{this.product._id}}" data-carritoid="{{../cart.cart._id}}" class="btn btn-primary">Añadir</button>
+                <button data-producto="{{this._id}}" data-carritoid="{{../cart.cart._id}}" class="btn btn-danger delete-product">Eliminar</button>
+            </div>
+        </div>
+        {{/each}}
+    {{else}}
+        <p>No hay productos aún</p>
+    {{/if}}
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('button[data-productid]');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = button.getAttribute('data-productid');
+            const carritoID = button.getAttribute('data-carritoid');
+            addToCart(productId, carritoID);
+        });
+    });
+    async function addToCart(productId, carritoID) {
+    try {
+        const response = await fetch(`/api/carts/${carritoID}/product/${productId}`, { method: 'POST' });
+        const cart = await response.json();
+        console.log('Producto agregado al carrito:', cart);
+        alert('Producto agregado al carrito');
+        window.location.reload();
+    } catch (error) {
+        console.error(error);
+        alert('Error al agregar el producto al carrito');
+    }
+}
+
+    const deleteButtons = document.querySelectorAll('.delete-product');
+
+    deleteButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+        const carritoID = button.dataset.carritoid;
+        const productoID = button.dataset.producto;
+
+        try {
+            const response = await fetch(`/api/carts/${carritoID}/products/${productoID}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto del carrito');
+            }
+
+            const data = await response.json();
+            console.log('Producto eliminado del carrito:', data);
+            alert('Producto eliminado del carrito');
+        } catch (error) {
+            console.error(error);
+            alert('Error al eliminar el producto del carrito');
+        }
+            window.location.reload();
+    });
+});
+</script>

@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:15px">
+    <div class="container">
+        <a class="navbar-brand" href="#">{{title}}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="/products">Productos</a>
+                <a class="nav-link" href="/cart/{{user.cart._id}}">Carrito<span class="badge bg-secondary ms-2">{{user.cart.products.length}}</span></a>
+                <a class="nav-link" href="/chat">Chat</a>
+                <a class="nav-link" href="/profile">Profile</a>
+                {{#if (eq user.role "admin")}}
+                    <a class="nav-link" href="/admin">Todos los carritos (admin)</a>
+                {{/if}}
+            </div>
+            {{#if user}}
+                <div class="nav navbar-nav ms-auto" role="search">
+                    <span class="navbar-text">{{user.name}}{{user.apellido}}</span>
+                    <a class="nav-link" href="/logout">Logout</a>
+                </div>
+            {{else}}
+                <div class="nav navbar-nav ms-auto" role="search">
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/register">Signup</a>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,11 @@
+<div class="card" style="width: 18rem; margin-bottom: 20px;">
+    <div class="card-body container">
+        {{#each producto.thumbnail}}
+        <img src="{{this}}" height="350" class="card-img-top" style="object-fit:cover" alt="..." />
+        {{/each}}
+        <h5 class="card-title">{{producto.title}}</h5>
+        <p class="card-text">{{producto.description}}</p>
+        <p class="card-text">precio: {{producto.price}}</p>
+        <p class="card-text">{{producto.code}}</p>
+    </div>
+</div>
